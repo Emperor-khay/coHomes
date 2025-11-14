@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Todo App</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        font-family: Arial;
+        padding: 20px;
+      }
+      li {
+        margin: 5px 0;
+        display: flex;
+        justify-content: space-between;
+      }
+      .completed {
+        text-decoration: line-through;
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Todo List</h2>
+
+    <input id="taskInput" value="" placeholder="Enter task" />
+    <button onclick="addTask()">Add</button>
+
+    <div>
+      <button onclick="filterTasks('all')">All</button>
+      <button onclick="filterTasks('done')">Completed</button>
+      <button onclick="filterTasks('pending')">Pending</button>
+    </div>
+
+    <ul id="taskList">
+      
+    </ul>
+
+    <script>
+    
+      let filter = "all";
+
+      function addTask() {
+        let input = document.getElementById("taskInput");
+        if (input.value === "") return alert("Enter a task");
+
+        let li = document.createElement("li");
+        li.innerHTML = `
+    <span onclick="toggleDone(this)">${input.value}</span>
+    <button onclick="this.parentElement.remove()">Delete</button>
+  `;
+
+        document.getElementById("taskList").appendChild(li);
+        input.value = "";
+        applyFilter();
+      }
+
+      function toggleDone(el) {
+        el.classList.toggle("completed");
+      
+        // if(el.classList.contains("completed")){
+        //     el.classList.remove("completed")
+        // }else{
+        //     el.classList.add("completed")
+        // }
+
+      }
+
+      function filterTasks(type) {
+        filter = type;
+        applyFilter();
+      }
+
+      function applyFilter() {
+        let items = document.querySelectorAll("#taskList li span");
+
+        items.forEach((span) => {
+          let li = span.parentElement;
+
+          if (filter === "all") li.style.display = "flex";
+          if (filter === "done")
+          
+        //   Tenary Operator
+          li.style.display = span.classList.contains("completed")
+              ? "flex"
+              : "none";
+            
+            //   switch and Case
+        // switch (li.style.display) {
+        //     case span.classList.contains("completed"):
+        //         li.style.display = "flex";
+        //         break;
+        //     default:
+        //         li.style.display = "none";
+
+            // If statement
+            // if(span.classList.contains("completed")){
+            //   li.style.display = "flex";   
+            // }else{
+            //   li.style.display = "none";
+            // }
+
+          if (filter === "pending")
+          li.style.display = span.classList.contains("completed")
+            ? "none"
+            : "flex";
+        });
+      }
+    </script>
+  </body>
+</html>
